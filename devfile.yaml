@@ -1,0 +1,198 @@
+schemaVersion: 2.2.0
+metadata:
+  name: dnalang-mobile-ide
+  displayName: DNA Lang Mobile IDE
+  description: Cloud-native mobile IDE for DNA programming language - powered by Red Hat OpenShift Dev Spaces
+  tags:
+    - DNA Lang
+    - Mobile IDE
+    - Red Hat
+    - OpenShift
+    - TypeScript
+    - React
+  projectType: typescript
+  language: TypeScript
+  version: 1.0.0
+  provider: Red Hat Developer
+  icon: https://raw.githubusercontent.com/redhat-developer/devfile/main/devfile-logo.png
+
+attributes:
+  controller.devfile.io/storage-type: per-workspace
+  controller.devfile.io/devworkspace-config-name: devworkspace-config
+
+components:
+  # Universal Developer Image with Node.js, TypeScript, and tools
+  - name: tooling
+    container:
+      image: registry.redhat.io/devspaces/udi-rhel8:latest
+      memoryLimit: 4Gi
+      memoryRequest: 2Gi
+      cpuLimit: 2000m
+      cpuRequest: 1000m
+      mountSources: true
+      sourceMapping: /projects
+      env:
+        - name: NODE_OPTIONS
+          value: '--max-old-space-size=3072'
+        - name: DNALANG_HOME
+          value: /projects/dnalang-mobile-ide
+        - name: PATH
+          value: /projects/dnalang-mobile-ide/bin:$(PATH)
+      endpoints:
+        - name: dev-server
+          targetPort: 3000
+          exposure: public
+          protocol: https
+          attributes:
+            urlRewriteSupported: true
+            discoverable: false
+        - name: preview
+          targetPort: 5173
+          exposure: public
+          protocol: https
+          attributes:
+            urlRewriteSupported: true
+            discoverable: false
+      volumeMounts:
+        - name: npm-cache
+          path: /home/user/.npm
+        - name: node-modules
+          path: /projects/dnalang-mobile-ide/node_modules
+
+  # Red Hat branded VS Code - Open Source
+  - name: vscode
+    container:
+      image: registry.redhat.io/devspaces/code-rhel8:latest
+      memoryLimit: 2Gi
+      memoryRequest: 1Gi
+      cpuLimit: 1000m
+      cpuRequest: 500m
+      mountSources: true
+      endpoints:
+        - name: ide
+          targetPort: 3100
+          exposure: public
+          protocol: https
+          attributes:
+            type: ide
+            urlRewriteSupported: true
+
+  # DNA Lang Runtime Container
+  - name: dnalang-runtime
+    container:
+      image: quay.io/devfile/universal-developer-image:latest
+      memoryLimit: 2Gi
+      memoryRequest: 512Mi
+      cpuLimit: 1000m
+      cpuRequest: 250m
+      mountSources: true
+      sourceMapping: /projects
+      command: ['tail']
+      args: ['-f', '/dev/null']
+      env:
+        - name: DNALANG_RUNTIME
+          value: 'true'
+
+  # Volume for npm cache
+  - name: npm-cache
+    volume:
+      size: 2Gi
+
+  # Volume for node_modules
+  - name: node-modules
+    volume:
+      size: 4Gi
+
+commands:
+  # Build commands
+  - id: install-dependencies
+    exec:
+      component: tooling
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: npm install
+      group:
+        kind: build
+        isDefault: false
+      label: 'Install Dependencies'
+
+  - id: build
+    exec:
+      component: tooling
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: npm run build
+      group:
+        kind: build
+        isDefault: true
+      label: 'Build DNA Lang Mobile IDE'
+
+  # Run commands
+  - id: dev-server
+    exec:
+      component: tooling
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: npm run dev
+      group:
+        kind: run
+        isDefault: true
+      label: 'Start Development Server'
+
+  - id: preview
+    exec:
+      component: tooling
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: npm run preview
+      group:
+        kind: run
+        isDefault: false
+      label: 'Preview Production Build'
+
+  # Test commands
+  - id: test
+    exec:
+      component: tooling
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: npm test
+      group:
+        kind: test
+        isDefault: true
+      label: 'Run Tests'
+
+  - id: lint
+    exec:
+      component: tooling
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: npm run lint
+      group:
+        kind: test
+        isDefault: false
+      label: 'Run Linter'
+
+  # DNA Lang specific commands
+  - id: dnalang-compile
+    exec:
+      component: dnalang-runtime
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: node bin/dnalang-compiler.js
+      group:
+        kind: build
+        isDefault: false
+      label: 'Compile DNA Lang Code'
+
+  - id: dnalang-repl
+    exec:
+      component: dnalang-runtime
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: node bin/dnalang-repl.js
+      group:
+        kind: run
+        isDefault: false
+      label: 'Start DNA Lang REPL'
+
+events:
+  # Post-start commands
+  postStart:
+    - install-dependencies
+
+  # Pre-stop commands
+  preStop:
+    - 'echo "Shutting down DNA Lang Mobile IDE..."'

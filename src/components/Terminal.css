@@ -1,0 +1,109 @@
+.terminal-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #1e1e1e;
+  color: #cccccc;
+  font-family: 'Red Hat Mono', monospace;
+}
+
+.terminal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background: #2d2d2d;
+  border-bottom: 1px solid #3e3e3e;
+  font-size: 14px;
+}
+
+.terminal-title {
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.terminal-clear-btn {
+  background: none;
+  border: 1px solid #555;
+  color: #cccccc;
+  padding: 4px 12px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-family: 'Red Hat Text', sans-serif;
+  font-size: 12px;
+  transition: all 0.2s;
+}
+
+.terminal-clear-btn:hover {
+  background: #3e3e3e;
+  border-color: #777;
+}
+
+.terminal-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.terminal-welcome {
+  color: #858585;
+  font-style: italic;
+}
+
+.terminal-welcome p {
+  margin: 4px 0;
+}
+
+.terminal-line {
+  display: flex;
+  margin: 4px 0;
+  align-items: flex-start;
+}
+
+.terminal-line.output {
+  color: #cccccc;
+}
+
+.terminal-line.error {
+  color: #ee0000;
+}
+
+.terminal-line.info {
+  color: #00a0e0;
+}
+
+.terminal-line.success {
+  color: #4caf50;
+}
+
+.terminal-prompt {
+  margin-right: 8px;
+  color: #00a0e0;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.terminal-text {
+  flex: 1;
+  word-break: break-word;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .terminal-header {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .terminal-content {
+    padding: 8px;
+    font-size: 11px;
+  }
+
+  .terminal-clear-btn {
+    padding: 3px 8px;
+    font-size: 11px;
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "name": "dnalang-mobile-ide",
+  "version": "1.0.0",
+  "description": "DNA Lang Mobile IDE - A cloud-native mobile IDE powered by Red Hat OpenShift Dev Spaces",
+  "keywords": [
+    "DNA Lang",
+    "mobile-ide",
+    "code-editor",
+    "red-hat",
+    "openshift",
+    "dev-spaces",
+    "typescript",
+    "react",
+    "programming-language"
+  ],
+  "author": "Red Hat Developer",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+http://127.0.0.1:28419/git/ENKI-420/dna-lang-mobile-ide.git"
+  },
+  "homepage": "https://github.com/dnalang/mobile-ide#readme",
+  "bugs": {
+    "url": "https://github.com/dnalang/mobile-ide/issues"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0 --port 3000",
+    "build": "tsc && vite build",
+    "preview": "vite preview --host 0.0.0.0 --port 5173",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "typecheck": "tsc --noEmit",
+    "dnalang:compile": "node bin/dnalang-compiler.js",
+    "dnalang:repl": "node bin/dnalang-repl.js",
+    "openshift:deploy": "npm run build && oc start-build dnalang-mobile-ide --from-dir=dist --follow"
+  },
+  "dependencies": {
+    "@codemirror/lang-javascript": "^6.2.1",
+    "@codemirror/state": "^6.3.2",
+    "@codemirror/view": "^6.22.1",
+    "@codemirror/commands": "^6.3.2",
+    "@codemirror/language": "^6.9.3",
+    "@codemirror/search": "^6.5.5",
+    "@codemirror/autocomplete": "^6.11.1",
+    "@codemirror/lint": "^6.5.0",
+    "@codemirror/theme-one-dark": "^6.1.2",
+    "@patternfly/react-core": "^5.1.1",
+    "@patternfly/react-icons": "^5.1.1",
+    "@patternfly/react-styles": "^5.1.1",
+    "@redhat/monaco-editor": "^0.43.0",
+    "codemirror": "^6.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.21.1",
+    "zustand": "^4.4.7",
+    "idb": "^7.1.1",
+    "localforage": "^1.10.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.6",
+    "@types/react": "^18.2.46",
+    "@types/react-dom": "^18.2.18",
+    "@typescript-eslint/eslint-plugin": "^6.17.0",
+    "@typescript-eslint/parser": "^6.17.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.56.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "prettier": "^3.1.1",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.10",
+    "vite-plugin-pwa": "^0.17.4",
+    "vitest": "^1.1.1",
+    "@vitest/ui": "^1.1.1"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}

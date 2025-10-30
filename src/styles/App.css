@@ -1,0 +1,107 @@
+.dnalang-app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.ide-layout {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.file-explorer-panel {
+  width: 250px;
+  min-width: 200px;
+  max-width: 400px;
+  border-right: 1px solid var(--border-color);
+  background: #f5f5f5;
+  overflow-y: auto;
+  resize: horizontal;
+}
+
+.editor-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.editor-container {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.terminal-container {
+  height: 200px;
+  min-height: 100px;
+  max-height: 400px;
+  border-top: 1px solid var(--border-color);
+  background: #1e1e1e;
+  resize: vertical;
+  overflow: hidden;
+}
+
+/* Red Hat branding elements */
+.redhat-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  background: linear-gradient(90deg, var(--redhat-primary), var(--redhat-secondary));
+  color: white;
+  border-radius: 4px;
+  font-family: 'Red Hat Display', sans-serif;
+  font-weight: 500;
+  font-size: 0.85rem;
+  gap: 6px;
+}
+
+.dnalang-logo-text {
+  font-family: 'Red Hat Display', sans-serif;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.dnalang-logo-text .lang {
+  color: var(--dnalang-primary);
+}
+
+/* Mobile responsive layout */
+@media (max-width: 768px) {
+  .file-explorer-panel {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 100;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .terminal-container {
+    height: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .file-explorer-panel {
+    width: 200px;
+  }
+
+  .terminal-container {
+    height: 120px;
+  }
+}
+
+/* PatternFly overrides for mobile */
+@media (max-width: 768px) {
+  .pf-v5-c-masthead {
+    padding: 0.5rem;
+  }
+
+  .pf-v5-c-toolbar__content {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+}

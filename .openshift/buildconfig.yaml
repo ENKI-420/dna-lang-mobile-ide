@@ -1,0 +1,39 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: dnalang-mobile-ide
+  labels:
+    app: dnalang-mobile-ide
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: dnalang-mobile-ide:latest
+  source:
+    type: Git
+    git:
+      uri: https://github.com/dnalang/mobile-ide
+      ref: main
+    contextDir: /
+  strategy:
+    type: Docker
+    dockerStrategy:
+      dockerfilePath: Dockerfile
+  triggers:
+    - type: ConfigChange
+    - type: GitHub
+      github:
+        secret: dnalang-webhook-secret
+    - type: Generic
+      generic:
+        secret: dnalang-webhook-secret
+---
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: dnalang-mobile-ide
+  labels:
+    app: dnalang-mobile-ide
+spec:
+  lookupPolicy:
+    local: false
