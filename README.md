@@ -19,7 +19,17 @@
 
 ## 🧬 About DNA Lang
 
-DNA Lang is a modern programming language designed for **bio-inspired computing** and **genetic algorithms**. The DNA Lang Mobile IDE brings the power of genetic programming to your mobile devices and cloud environments, leveraging the robust infrastructure of **Red Hat OpenShift**.
+DNA Lang is a revolutionary **Techno-Biological Programming Language** designed for **autonomous quantum computing research** and **self-evolving systems**. The DNA Lang Mobile IDE brings the power of the **Negentropic Quantum Research Engine (NQRE)** to your mobile devices and cloud environments, leveraging the robust infrastructure of **Red Hat OpenShift**.
+
+### NQRE: Negentropic Quantum Research Engine
+
+The NQRE is an **autonomous platform** that accelerates scientific breakthroughs in quantum computing through:
+
+- **Autopoietic Systems**: Self-creating, self-maintaining organisms
+- **Three-Tiered Architecture**: SENSE, ACT, EVOLVE cycle for autonomous research
+- **Quantum-Native**: First-class support for quantum circuits and operations
+- **LLM-Integrated**: Uses AI for insight generation and optimization
+- **Wasserstein Optimization**: Quantum-aware optimization using optimal transport theory
 
 ## ✨ Features
 
@@ -32,12 +42,20 @@ DNA Lang is a modern programming language designed for **bio-inspired computing*
 - **Integrated Terminal** - View execution output and errors in real-time
 
 ### 🧬 DNA Lang Capabilities
-- DNA sequence analysis and manipulation
-- Complementary strand generation
-- DNA to RNA transcription
-- RNA to protein translation
-- Genetic algorithm execution
-- Evolution simulation
+- **Quantum Computing**: Native quantum circuit support with SENSE-ACT-EVOLVE architecture
+- **Self-Evolution**: Organisms that modify their own code for optimization
+- **LLM Integration**: Gemini AI for autonomous insight generation
+- **Wasserstein Gradient Flow**: Advanced quantum circuit optimization
+- **Bio-Inspired Computing**: DNA sequence analysis and genetic algorithms
+- **Autonomous Research**: 24/7 operation with self-improvement
+
+### ⚛️ Quantum Features
+- **Quantum Circuits**: Define and execute quantum circuits with native syntax
+- **Backend Support**: IBM Quantum, simulators, and cloud quantum computers
+- **Coherence Monitoring**: Real-time tracking of quantum state quality
+- **Error Mitigation**: Built-in quantum error correction
+- **State Tomography**: Full quantum state reconstruction
+- **VQE & QAOA**: Variational quantum algorithms
 
 ### 🔴 Red Hat Integration
 - **OpenShift Ready** - Deploy with one command on OpenShift
@@ -106,13 +124,29 @@ dna-lang-mobile-ide/
 │   ├── dnalang-logo.svg     # DNA Lang logo
 │   ├── dnalang-redhat-logo.svg  # Combined branding
 │   └── icons/               # PWA icons
+├── docs/                    # Documentation
+│   ├── DNALANG_SPECIFICATION.md  # Language specification
+│   └── NQRE_GUIDE.md        # NQRE user guide
+│   ├── examples/                # DNA Lang examples
+│   ├── quantum-swarm-example.ts # NQRE organism example
+│   └── simple-quantum-organism.dna # DNA Lang syntax example
 ├── src/
 │   ├── components/          # React components
 │   │   ├── Editor.tsx       # CodeMirror-based editor
 │   │   ├── Terminal.tsx     # Output terminal
 │   │   └── FileExplorer.tsx # File management
 │   ├── dnalang/            # DNA Lang runtime
-│   │   └── executor.ts     # Code execution engine
+│   │   ├── executor.ts     # Code execution engine
+│   │   ├── lexer.ts        # Lexical analyzer
+│   │   ├── parser.ts       # Syntax parser
+│   │   ├── ast.ts          # Abstract syntax tree
+│   │   └── nqre/           # NQRE framework
+│   │       ├── types.ts    # Type definitions
+│   │       ├── sense.ts    # SENSE module
+│   │       ├── act.ts      # ACT module
+│   │       ├── evolve.ts   # EVOLVE module
+│   │       ├── organism.ts # Organism runtime
+│   │       └── index.ts    # Main exports
 │   ├── store/              # State management
 │   │   └── useStore.ts     # Zustand store
 │   ├── styles/             # CSS styles
@@ -126,39 +160,115 @@ dna-lang-mobile-ide/
 
 ## 🧬 DNA Lang Examples
 
-### Basic DNA Operations
+### Quantum Organism (NQRE)
 
-```javascript
-// DNA sequence analysis
-const sequence = "ATCGATCG";
-const complement = dna.complement(sequence);
-console.log(complement); // Output: TAGCTAGC
+```dnalang
+ORGANISM QuantumSwarm {
+  domain: "quantum_computing"
+  version: "1.0.0"
 
-// DNA to RNA transcription
-const rna = dna.transcribe(sequence);
-console.log(rna); // Output: AUCGAUCG
+  STATE {
+    coherence: 0.0,
+    generation: 0
+  }
 
-// RNA to protein translation
-const protein = dna.translate(rna);
-console.log(protein); // Output: ['Met', '???', ...]
+  DNA {
+    quantum: {
+      backend: "simulator",
+      target_coherence: 0.99,
+      qubit_count: 5
+    }
+  }
+
+  CIRCUIT BellState {
+    qubits: 2
+
+    GATES {
+      H(0)
+      CNOT(0, 1)
+    }
+
+    MEASURE {
+      q0: 0,
+      q1: 1
+    }
+  }
+
+  SENSE CoherenceMonitor {
+    ASYNC FUNCTION monitor(): Metric {
+      LET state = AWAIT GET_QUANTUM_STATE()
+      RETURN COMPUTE_COHERENCE(state)
+    }
+  }
+
+  ACT QuantumExperiment {
+    ASYNC FUNCTION run(circuit: QuantumCircuit): Result {
+      RETURN AWAIT BACKEND.EXECUTE(circuit)
+    }
+  }
+
+  EVOLVE POLICY AutoImprove {
+    TRIGGER {
+      WHEN STATE.coherence < DNA.quantum.target_coherence * 0.9
+    }
+
+    ASYNC ACTION {
+      LET mutation = AWAIT LLM.PROPOSE_MUTATION({
+        goal: "maximize_coherence"
+      })
+      SELF.MODIFY(mutation)
+    }
+  }
+
+  ASYNC FUNCTION main() {
+    AWAIT MainLoop.run()
+  }
+}
 ```
 
-### Genetic Algorithm
+### TypeScript Integration
 
-```javascript
-// Simple genetic algorithm
-const population = Array(100).fill(0).map(() => ({
-  genes: Math.random()
-}));
+```typescript
+import { createOrganism, OrganismRuntime } from './src/dnalang/nqre'
 
-const fitness = (individual) => {
-  // Fitness function: maximize genes value
-  return individual.genes;
-};
+// Create quantum organism
+const organism = createOrganism({
+  domain: 'quantum_computing',
+  dna: {
+    quantum: {
+      backend: 'simulator',
+      target_coherence: 0.99,
+      qubit_count: 5
+    }
+  }
+})
 
-const evolved = dna.evolve(population, 100, fitness);
-console.log("Evolution complete!");
-console.log("Best individual:", evolved[0]);
+// Start autonomous research
+const runtime = new OrganismRuntime(organism)
+await runtime.start()
+```
+
+### Quantum Circuit Optimization
+
+```dnalang
+GENE WGFOptimizer {
+  name: "Wasserstein Gradient Flow Optimizer"
+
+  FUNCTION optimize(circuit: QuantumCircuit): QuantumCircuit {
+    LET current = circuit
+
+    WHILE iteration < max_iterations {
+      LET gradient = COMPUTE_WASSERSTEIN_GRADIENT(current)
+      current = APPLY_GRADIENT_UPDATE(current, gradient, learning_rate)
+
+      IF NORM(gradient) < convergence_threshold {
+        BREAK
+      }
+    }
+
+    RETURN current
+  }
+}
 ```
 
 ## 🛠️ Development
